@@ -3586,9 +3586,28 @@
 
   /* 19: reseña arriba, video abajo */
   .t3-wide{ max-width:none; padding-left:3vw; padding-right:3vw; }
-  .t3-intro{ max-width:1280px; margin:0 auto; padding:0 3vw; }
-  .t3-review{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0 clamp(20px, 3vw, 44px); margin-top:14px; }
-  .t3-review .t3-sub{ margin-top:0; max-width:none; font-size:14.5px; line-height:1.8; opacity:1; animation:none; }
+  .t3-intro{ width: min(100%, calc((100vh - 130px) * 1.7778)); margin:0 auto; padding:0; }
+  .t3-intro .eyebrow{ margin-top:2vh; }
+  .t3-intro .t3-title{ margin-top:10px; }
+  .t3-review{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: clamp(14px, 1.6vw, 24px); margin-top:clamp(22px, 3.2vh, 34px); }
+  .t3-review .t3-sub{
+    position:relative; margin-top:0; max-width:none;
+    padding: clamp(22px, 2.4vw, 32px) clamp(20px, 2.2vw, 30px) clamp(24px, 2.6vw, 34px);
+    font-size: clamp(14px, 1.08vw, 15.5px); line-height:1.85; color: rgba(250,243,234,0.9);
+    background: rgba(28,20,32,0.42);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    border:1px solid rgba(250,243,234,0.14); border-radius:16px;
+    opacity:0; animation: riseIn .9s ease forwards;
+  }
+  .t3-review .t3-sub:nth-child(1){ animation-delay:.25s; }
+  .t3-review .t3-sub:nth-child(2){ animation-delay:.35s; }
+  .t3-review .t3-sub:nth-child(3){ animation-delay:.45s; }
+  .t3-review .t3-sub::before{
+    content: attr(data-n);
+    display:block; margin-bottom:14px; padding-bottom:12px;
+    font-family:'Inter', sans-serif; font-weight:600; font-size:11px; letter-spacing:.2em; color: var(--rose-soft);
+    border-bottom:1px solid rgba(var(--rose-soft-rgb),0.35);
+  }
   .t3-w{ display:inline-block; opacity:0; filter: blur(7px); transform: translateY(.7em); }
   .t3-review.play .t3-w{
     animation: t3WordIn 900ms cubic-bezier(.16,1,.3,1) forwards;
@@ -3598,10 +3617,10 @@
     from{ color: var(--rose-soft); opacity:0; filter: blur(7px); transform: translateY(.7em); }
     to{ color: inherit; opacity:1; filter: blur(0); transform: none; }
   }
-  @media (max-width: 1000px){ .t3-review{ grid-template-columns: 1fr; gap:12px 0; } }
+  @media (max-width: 1000px){ .t3-review{ grid-template-columns: 1fr; } }
   @media (prefers-reduced-motion: reduce){ .t3-w{ opacity:1; filter:none; transform:none; } }
   .t3-video-wrap{
-    margin: 34px auto 0;
+    margin: clamp(32px, 5vh, 52px) auto 0;
     width: min(100%, calc((100vh - 130px) * 1.7778));
     opacity:0; animation: riseIn 1s ease forwards .6s;
   }
@@ -6598,9 +6617,9 @@ window.docLoad = function(done){
     const empty = document.getElementById('t3VideoEmpty');
     document.getElementById('t3VideoTitle').textContent = T3.title;
     const rev = document.getElementById('t3Review');
-    let wi = 0;
+    let wi = 0, wi0 = 0;
     T3.review.forEach(par=>{
-      const p = document.createElement('p'); p.className = 't3-sub t3-rev-p';
+      const p = document.createElement('p'); p.className = 't3-sub t3-rev-p'; p.dataset.n = String(wi0++ + 1).padStart(2, '0');
       par.split(' ').forEach((w, k, arr)=>{
         const sp = document.createElement('span'); sp.className = 't3-w'; sp.style.setProperty('--i', wi++); sp.textContent = w;
         p.appendChild(sp); if(k < arr.length - 1) p.appendChild(document.createTextNode(' '));
