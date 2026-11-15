@@ -3669,11 +3669,10 @@
     transition: opacity .5s ease .25s;
   }
   .t3-art{
-    position:relative; height:100%; aspect-ratio: 3898 / 2846; overflow:hidden;
-    box-shadow: 0 0 22px rgba(60,40,20,0.4);
+    position:absolute; inset:0; overflow:hidden;
   }
   .t3-art img{
-    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position: 50% 62%; display:block;
     transform-origin: 62% 58%;
     animation: t3Breath 16s ease-in-out infinite alternate;
     transition: filter .4s ease;
@@ -3684,7 +3683,7 @@
     transform: translateX(-60%);
     animation: t3Sheen 7.5s ease-in-out infinite 1.2s;
   }
-  @keyframes t3Breath{ from{ transform: scale(1); } to{ transform: scale(1.06) translate(-0.8%, -0.6%); } }
+  @keyframes t3Breath{ from{ transform: scale(1); } to{ transform: scale(1.04) translate(-0.6%, -0.4%); } }
   @keyframes t3Sheen{ 0%,18%{ transform: translateX(-60%); } 62%,100%{ transform: translateX(60%); } }
   /* pantalla del video */
   .t3-screen{ position:absolute; inset:0; background:#000; opacity:0; visibility:hidden; clip-path: inset(49.6% 0 49.6% 0); }
