@@ -3737,12 +3737,63 @@
   @media (prefers-reduced-motion: reduce){ .t3-art img, .t3-sheen, .t3-play-btn::before, .t3-play-btn::after{ animation:none; } }
 
   /* 20: documentación interactiva */
-  .t3-doc > .eyebrow, .t3-doc > .t3-title, .t3-doc > .t3-sub{ margin-left:3.5vw; }
-  .t3-doc{ padding-top:4vh; }
-  .t3-doc .t3-title{ margin-top:6px; }
-  .t3-doc-sub{ margin-top:8px; max-width:none; font-size:14px; }
-  @media (min-width: 900px){ .t3-doc-sub{ white-space:nowrap; } }
-  .t3-bookwrap{ margin-top:2vh; }
+  .t3-doc{ padding-top:3.2vh; padding-bottom: calc(96px + 3vh); }
+  .t3-dochead{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:14px 24px; padding:0 3.5vw; }
+  @media (min-width:900px){ .t3-dochead{ padding-right: 120px; } }
+  .t3-doc .t3-title{ margin-top:4px; font-size: clamp(1.5rem, 2.6vw, 2.1rem); }
+  .t3-bookwrap{ margin-top:2.2vh; gap:18px; }
+  .t3-bookstage{ padding: 14px 18px; }
+  /* libro horizontal: tapas, canto de las hojas y portada del mismo tamaño que el libro abierto */
+  .b3{ --bd: clamp(8px, 1.05vw, 15px); }
+  .b3-board{
+    position:absolute; z-index:0; inset: calc(var(--bd) * -1); border-radius: 5px 10px 10px 5px;
+    background: linear-gradient(135deg, #7d2c23 0%, #4f1813 60%, #3a100d 100%);
+    box-shadow: 0 34px 70px rgba(0,0,0,0.6), 0 8px 18px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,220,190,0.14), inset 0 2px 0 rgba(255,220,190,0.18);
+  }
+  .b3-pages{
+    position:absolute; z-index:0; inset: calc(var(--bd) * -0.34); border-radius:3px;
+    background: #f2e9d6;
+    box-shadow: 0 2px 0 #e4d8bf, 0 4px 0 #d9ccb0, 0 6px 0 #cdbf9f, inset 0 0 0 1px rgba(120,90,50,0.25);
+  }
+  .b3 .book-inner{ z-index:1; }
+  .b3-cover{
+    position:absolute; z-index:400; inset: calc(var(--bd) * -1);
+    border-radius: 5px 10px 10px 5px; overflow:hidden; cursor:pointer;
+    background:#4f1813;
+    box-shadow: 0 34px 70px rgba(0,0,0,0.6), 0 8px 18px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,220,190,0.14);
+    transform-origin: left center;
+    transition: transform 1s cubic-bezier(.645,.045,.355,1), opacity .5s ease .5s, visibility 0s linear 1s;
+  }
+  .b3-cover img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+  .b3-spine{
+    position:absolute; top:0; bottom:0; left:0; width:5.5%; pointer-events:none;
+    background:
+      linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.12) 55%, transparent 100%),
+      linear-gradient(90deg, transparent 0 78%, rgba(255,235,205,0.28) 80%, rgba(0,0,0,0.3) 84%, transparent 90%);
+  }
+  .b3-hint{
+    position:absolute; left:50%; bottom:5%; translate:-50% 0; display:flex; align-items:center; gap:7px;
+    font-family:'Inter', sans-serif; font-weight:500; font-size: clamp(11px, 1.05vw, 14px); color: var(--cream);
+    padding:8px 16px; border-radius:999px; white-space:nowrap;
+    background: rgba(24,16,32,0.62); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    border:1px solid rgba(250,243,234,0.4);
+    animation: t3Hint 2.4s ease-in-out infinite;
+  }
+  @keyframes t3Hint{ 0%,100%{ transform: translateX(0); } 50%{ transform: translateX(4px); } }
+  .b3-cover:hover .b3-hint{ background: rgba(var(--rose-soft-rgb),0.42); border-color: var(--cream); }
+  /* abierto: la portada gira sobre el lomo y se va */
+  .b3-cover:not(.b3-back).open{ transform: perspective(2600px) rotateY(-112deg); opacity:0; visibility:hidden; pointer-events:none; }
+  /* contraportada: aparece cerrando el libro, con el lomo a la derecha */
+  .b3-back{ transform-origin: right center; opacity:0; visibility:hidden; pointer-events:none; transform: perspective(2600px) rotateY(70deg); }
+  .b3-back .b3-spine{ left:auto; right:0; background:
+      linear-gradient(270deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.12) 55%, transparent 100%),
+      linear-gradient(270deg, transparent 0 78%, rgba(255,235,205,0.28) 80%, rgba(0,0,0,0.3) 84%, transparent 90%); }
+  .b3-back.show{ transform:none; opacity:1; visibility:visible; pointer-events:auto; transition: transform .9s cubic-bezier(.645,.045,.355,1) .35s, opacity .5s ease .35s, visibility 0s; }
+  .b3-cover:focus-visible{ outline:2px solid var(--rose-soft); outline-offset:3px; }
+  .t3-doc .b2-bar{ padding:6px 8px; }
+  .t3-doc .b2-icon{ width:38px; height:38px; }
+  .t3-doc .b2-read{ height:38px; padding:0 16px; }
+  @media (max-width:700px){ .t3-dochead{ padding:0 2vw; } .t3-bookstage{ padding:10px 12px; } }
   .t3-toc{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; width:100%; }
   .t3-chip{
     display:flex; align-items:center; gap:8px;
@@ -5571,13 +5622,10 @@
   <section class="slide" data-slide="19">
     <div class="s15-bg"></div>
     <div class="t3-content t3-wide t3-doc">
-      <div class="eyebrow">20 — Documentación</div>
-      <h2 class="t3-title">Documentación del proceso</h2>
-      <p class="t3-sub t3-doc-sub">Haz clic en el libro o usa las flechas para pasar las páginas, o salta directo a la parte que quieras ver.</p>
-
-      <div class="book-wrap t3-bookwrap">
-        <div class="book-stage">
-          <div class="book b2" id="book3"><div class="book-inner" id="bookInner3"><div class="b2-shadow" id="book3Shadow"></div></div></div>
+      <div class="t3-dochead">
+        <div class="t3-dochead-text">
+          <div class="eyebrow">20 — Documentación</div>
+          <h2 class="t3-title">Documentación del proceso</h2>
         </div>
         <div class="b2-bar" role="group" aria-label="Controles del libro">
           <button class="b2-icon" id="book3Prev" aria-label="Página anterior" disabled>
@@ -5596,12 +5644,31 @@
             Leer en grande
           </button>
         </div>
+      </div>
+
+      <div class="book-wrap t3-bookwrap">
+        <div class="book-stage t3-bookstage">
+          <div class="book b2 b3" id="book3">
+            <div class="b3-board"></div>
+            <div class="b3-pages"></div>
+            <div class="book-inner" id="bookInner3"><div class="b2-shadow" id="book3Shadow"></div></div>
+            <div class="b3-cover" id="b3Cover" role="button" tabindex="0" aria-label="Abrir el libro">
+              <img data-dsrc="media/doc-portada.webp" alt="Portada: El tiempo que nos queda, documentación del proceso">
+              <i class="b3-spine"></i>
+              <span class="b3-hint"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>Haz clic para abrir el libro</span>
+            </div>
+            <div class="b3-cover b3-back" id="b3Back" role="button" tabindex="-1" aria-label="Volver a las páginas">
+              <img data-dsrc="media/doc-contraportada.webp" alt="Contraportada: Gracias por leer el proceso de documentación">
+              <i class="b3-spine"></i>
+            </div>
+          </div>
+        </div>
         <div class="t3-toc" id="t3Toc" role="group" aria-label="Índice del libro"></div>
       </div>
     </div>
   </section>
 
-  <!-- LECTOR del libro de documentación (pantalla completa) -->
+    <!-- LECTOR del libro de documentación (pantalla completa) -->
   <div class="rd" id="rd" aria-hidden="true">
     <button class="rd-close" id="rdClose" aria-label="Cerrar">✕</button>
     <button class="rd-nav rd-prev" id="rdPrev" aria-label="Página anterior">‹</button>
@@ -6783,13 +6850,14 @@ window.docLoad = function(done){
     const shadow = document.getElementById('book3Shadow');
     const prevB = document.getElementById('book3Prev'), nextB = document.getElementById('book3Next'), readB = document.getElementById('book3Read');
     const count = document.getElementById('book3Count'), bar = document.getElementById('book3Bar'), toc = document.getElementById('t3Toc');
+    const coverEl = document.getElementById('b3Cover'), backEl = document.getElementById('b3Back');
     const SET = {
       imgs: Array.from({length:21}, (_, i)=> 'media/doc-' + String(i + 1).padStart(2, '0') + '.webp'),
       cover: 'media/doc-portada.webp', back: 'media/doc-contraportada.webp'
     };
     // índice: [nombre, página del libro a la que salta]
     const TOC = [['De qué trata',1], ['Estilo visual',2], ['Herramientas',3], ['Registro del proceso',4], ['Escenas 1 a 10',6], ['Edición de video',18], ['Audio sonoro',20], ['Recursos narrativos',21]];
-    let N = SET.imgs.length, T = N + 1, S = N + 1, leaves = [], s = 0, ratio = 16/9, built = false, cf = 1;
+    let N = SET.imgs.length, T = N + 1, S = N + 1, leaves = [], s = 0, ratio = 16/9, built = false;
 
     // carga por etapas: portada, páginas en orden y contraportada (3 a la vez)
     const waits = {}; let started = false;
@@ -6822,8 +6890,9 @@ window.docLoad = function(done){
       prevB.disabled = (s === 0); nextB.disabled = (s >= S);
       count.textContent = (s === 0) ? 'Portada' : (s >= S) ? 'Contraportada' : (String(s).padStart(2,'0') + ' / ' + String(N).padStart(2,'0'));
       if(bar) bar.style.width = (Math.min(s, N) / N * 100) + '%';
-      inner.style.transform = (s === 0) ? 'translateX(' + (-cf * 25) + '%)' : (s >= S) ? 'translateX(' + (cf * 25) + '%)' : 'translateX(0)';
-      if(shadow){ shadow.style.transition = (s >= S) ? 'left .9s cubic-bezier(.65,.05,.35,1), width .5s cubic-bezier(.4,0,.2,1)' : ''; shadow.style.left = (s === 0) ? '50%' : (s >= S) ? (50 - cf * 50) + '%' : '0'; shadow.style.width = (s === 0 || s >= S) ? (cf * 50) + '%' : '100%'; }
+      coverEl.classList.toggle('open', s > 0); coverEl.tabIndex = s > 0 ? -1 : 0;
+      backEl.classList.toggle('show', s >= S); backEl.tabIndex = s >= S ? 0 : -1;
+      if(shadow){ shadow.style.left = '0'; shadow.style.width = '100%'; }
       tocState();
     }
     function go(n){
@@ -6844,12 +6913,12 @@ window.docLoad = function(done){
     function fit(){
       const stage = book.parentElement;
       if(!stage || !stage.clientWidth) return;
-      const content = book.closest('.t3-content'), barEl = bar && bar.closest('.b2-bar');
+      const content = book.closest('.t3-content');
       let top = content ? content.getBoundingClientRect().top - content.scrollTop : 0;
       for(let el = stage; el && el !== content; el = el.offsetParent) top += el.offsetTop;
-      const below = ((barEl && barEl.offsetHeight) || 62) + (toc.offsetHeight || 0) + 28 + 84;
+      const below = (toc.offsetHeight || 0) + 18 + 40 + 96;
       const availH = Math.max(260, window.innerHeight - top - below);
-      let w = Math.min(stage.clientWidth, availH * ratio);
+      let w = Math.min(stage.clientWidth - 60, availH * ratio);
       w = Math.max(w, 300);
       book.style.width = w + 'px';
       book.style.height = (w / ratio) + 'px';
@@ -6861,17 +6930,14 @@ window.docLoad = function(done){
       leaves = [];
       for(let k = 0; k < T; k++){
         const leaf = document.createElement('div'); leaf.className = 'book-leaf';
-        const front = (k === 0) ? '<img class="b2-cover" data-dsrc="' + SET.cover + '" alt="Portada: El tiempo que nos queda, documentación del proceso">' : half(k, 'r');
-        const back = (k + 1 <= N) ? half(k + 1, 'l') : '<img class="b2-backimg" data-dsrc="' + SET.back + '" alt="Contraportada: Gracias">';
-        leaf.innerHTML = '<div class="book-face front' + (k === 0 ? ' b2-coverface' : '') + '">' + front + '</div><div class="book-face back' + (k === N ? ' b2-backface' : '') + '">' + back + '</div>';
+        const front = (k === 0) ? '' : half(k, 'r');
+        const back = (k + 1 <= N) ? half(k + 1, 'l') : '';
+        leaf.innerHTML = '<div class="book-face front">' + front + '</div><div class="book-face back">' + back + '</div>';
         leaf.addEventListener('click', ()=>{ if(k >= s) go(s + 1); else go(s - 1); });
         inner.appendChild(leaf); leaves.push(leaf); applyZ(leaf, k);
       }
       s = 0; fit(); window.docHydrate();
       leaves.forEach((leaf,k)=>{ if(k > 0) leaf.style.opacity = 0; });
-      const ci = new Image();
-      ci.onload = ()=>{ if(ci.naturalWidth){ cf = Math.min(1, (ci.naturalWidth / ci.naturalHeight) / (ratio / 2)); book.style.setProperty('--cf', (cf * 100) + '%'); updateUI(); } };
-      ci.src = SET.cover;
       updateUI();
     }
     TOC.forEach((t, i)=>{
@@ -6882,6 +6948,9 @@ window.docLoad = function(done){
     });
     prevB.addEventListener('click', ()=> go(s - 1));
     nextB.addEventListener('click', ()=> go(s + 1));
+    coverEl.addEventListener('click', ()=> go(1));
+    backEl.addEventListener('click', ()=> go(N));
+    [coverEl, backEl].forEach(el=> el.addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); el.click(); } }));
     readB.addEventListener('click', ()=>{ if(built && leaves.length) window.rdOpen(Math.min(N, Math.max(1, s)), (n)=> go(n), SET.imgs); });
     window.addEventListener('resize', ()=>{ if(current === 19) fit(); });
     window.t3BookHook = function(n){
